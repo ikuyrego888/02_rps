@@ -1,0 +1,163 @@
+html, body {
+    font-size: 62.5%;
+}
+/* 勝負設定の幅 */
+.select {
+    width: 100%;
+}
+
+/* 勝負設定：セレクトボックスの設定 */
+#player_select,#com_select,#stairs {
+    color: rgb(32, 92, 189);
+    border-radius: 10px;
+    padding: 4px;
+    margin: 5px 2px 5px 2px;
+}
+
+/* スタートとリロードの設定 */
+#start,#reload {
+    color: white;
+    background-color: crimson;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 5px 2px 5px 2px;
+}
+#reload {
+    width: 36%;
+    font-size: 1.4rem;
+}
+#start:hover,#reload:hover {
+    opacity: 0.7;
+}
+#start:disabled {
+    pointer-events: none;
+    background-color: #808080;
+}
+#restart {
+    text-align: center;
+}
+
+/* table_01*/
+.table_01 {
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgb(245, 240, 240);
+}
+#player,#com {
+    color: white;
+    background-color: rgb(75, 89, 103);
+    font-size: 2rem;
+    text-align: center;
+}
+#playerHand,#comHand {
+    display: block;
+    padding: 10px;
+    margin: 0  auto;
+    width: 32%;
+}
+.hand {
+    position: relative;
+}
+#center_glico {
+    position: absolute;
+    width: 15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/* 結果表示 */
+#result {
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+#result01 {
+    color: rgb(176, 175, 175);
+    font-size: 2.4rem;
+    margin: -10px;
+}
+#result02 {
+    color: lightslategray;
+    font-size: 4rem;
+}
+#result03 {
+    display: none;
+    color: rgb(176, 175, 175);
+    font-size: 2.4rem;
+    margin: -10px;
+}
+#result04 {
+    display: none;
+    color: darkorange;
+    font-size: 4rem;
+}
+#result05 {
+    display: none;
+    color: crimson;
+    font-size: 4rem;
+}
+
+/* グーチョキパーの選択ボタン設定 */
+.click_all {
+    background-image: url("../img/glico40_gray.png");
+    /* ↑ローカル画像の指定方法（階層を正しく指定すること） */
+    background-repeat: repeat;
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+#guub,#chob,#paab {
+    margin: 5%;
+    color: black;
+    border: 1.5px solid black;
+    border-radius: 5px;
+}
+#guub:hover,#chob:hover,#paab:hover {
+    opacity: 0.8;
+    color: white;
+    background-color: crimson;
+}
+/* button無効化のときはhoverも解除 */
+#guub:disabled,#chob:disabled,#paab:disabled {
+    margin: 5%;
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: rgb(245, 240, 240);
+    border-radius: 5px;
+}
+#guuimg,#choimg,#paaimg { 
+    width: 24%;
+    display: block;
+    margin: 0 auto;
+}
+.click_font {
+    font-size: 1.2rem;
+}
+.glico {
+    margin: 0 auto;
+}
+
+/* table_02：ポイント（スタンプ）設定 */
+.table_02 {
+    width: 98%;
+    margin: 0 auto;
+    /* 表の微妙な隙間を消し込む */
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.table_02 th {
+    width: 16%;
+    font-weight: normal;
+
+    /* 見出しのフォントの太さを普通に変更 */
+    color: rgb(75, 89, 103);
+    background-color: rgb(217, 223, 229);
+    font-size: 1.4rem;
+    border: 1px solid #bfbfbf;
+}
+.table_02 td{
+    border: 1px solid #bfbfbf;
+}

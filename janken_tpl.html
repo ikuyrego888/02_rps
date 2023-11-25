@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<title>じゃんけんグリコ</title>
+</head>
+<body>
+  <header>
+    <!-- メニューバー設定したい -->
+  </header>
+
+  <!-- 勝負の設定 -->
+  <form class="select">
+    <select name="" id="player_select" required>
+      <option value="" hidden>プレイヤー選択</option>
+      <!-- disabled設定にするとスタートボタンの制御に影響及ぼすためhiddenで対応 -->
+      <option value="あたし">あたし</option>
+      <option value="あたし">あたし</option>
+    </select>
+    <select name="" id="com_select" required>
+      <option value="" hidden>対戦相手</option>
+      <!-- disabled設定にするとスタートボタンの制御に影響及ぼすためhiddenで対応 -->
+      <option value="たいちゃん">たいちゃん</option>
+      <option value="おにいちゃん">おにいちゃん</option>
+    </select>
+    <select name="" id="stairs" required>
+      <option value="" hidden>勝負する階段の数</option>
+      <!-- disabled設定にするとスタートボタンの制御に影響及ぼすためhiddenで対応 -->
+      <option value="30">30段</option>
+      <option value="40">40段</option>
+      <option value="50">50段</option>
+      <option value="100">100段</option>
+    </select>
+    <span id="start_alert"><button id="start">スタート</button></span>
+  </form>
+
+  <!-- 勝敗表示と結果表示 -->
+  <table class="table_01">
+    <tr>
+      <td id="player">（プレイヤー選択）</td>
+      <td id="com">（あいてを選んでね）</td>
+    </tr>
+    <tr class="hand">
+      <td><img src="img/guu02.png" alt="" id="playerHand"></td>
+      <td><img src="img/guu02.png" alt="" id="comHand"></td>
+      <td><img id="center_glico" src="img/glico_maru02.png" alt=""></td>
+    </tr>
+    <tr>
+      <td colspan="2" id="result"> 
+        <p id="result01"></p>
+        <span id="result02">グ〜リ〜コッ！</span>
+        <p id="result03"></p>
+        <span id="result04"></span>
+        <span id="result05"></span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- グーチョキパー選択ボタン -->
+  <div class="click_all">
+    <div class="click_guu">
+      <button id="guub" class="glico">
+        <img src="img/guu02.png" alt="" id="guuimg">
+        <div class="click_font">グリコ</div>
+      </button>  
+    </div>
+    <div class="click_cho">
+      <button id="chob" class="glico">
+        <img src="img/cho02.png" alt="" id="choimg">
+        <div class="click_font">チヨコレイト</div>
+      </button>        
+    </div>
+    <div class="click_paa">
+      <button id="paab" class="glico">
+        <img src="img/paa02.png" alt="" id="paaimg">
+        <div class="click_font">パイナツプル</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- ポイント（スタンプ）表示 -->
+  <table class="table_02">
+    <tr class="table_02_height">
+      <th id="player_s">（プレイヤー）</th>
+      <td><div id="stump"></div></td>
+    </tr>
+    <tr class="table_02_height">
+      <th id="com_s">（相手）</th>
+      <td><div id="com_stump"></div></td>
+    </tr>
+  </table>
+
+  <!-- リロードボタン -->
+  <div id="restart">
+    <button id="reload">もう１回あそぶ</button>
+  </div>
+
+<footer></footer>
+
+<script>
+//じゃんけん用のSCRIPTを書いてください
+
+//以下スタートアラート設定（クリック可の場合には表示させない、が設定できていない）//
+// $("#start_alert").click(function() {
+//   alert("条件を選んでからスタート押してね");
+// })
+
+//条件を選択しないとスタートできない設定//
+$("#start").prop("disabled",true)
+
+//プレイヤー選択結果を反映＋スタート制御//
+$("#player_select").change(function() { 
+  const $player_select = $("#player_select option:selected").val();
+  console.log($player_select);
+  const $com_select = $("#com_select option:selected").val();
+  console.log($com_select);
+  const $stairs = $("#stairs option:selected").val();
+  console.log($stairs);
+  if($player_select !=="" && $com_select !=="" && $stairs !=="") {
+    $("#start").prop("disabled",false);
+  } else {
+    $("#start").prop("disabled",true);
+  }
+  $("#player").text($player_select+"の手");
+  $("#player_s").text($player_select);
+})
+
+//コンピュータ選択結果を反映＋スタート制御//
+$("#com_select").change(function() {
+  const $player_select = $("#player_select option:selected").val();
+  console.log($player_select);
+  const $com_select = $("#com_select option:selected").val();
+  console.log($com_select);
+  const $stairs = $("#stairs option:selected").val();
+  console.log($stairs);
+  if($player_select !=="" && $com_select !=="" && $stairs !=="") {
+    $("#start").prop("disabled",false);
+  } else {
+    $("#start").prop("disabled",true);
+  }
+  $("#com").text($com_select+"の手");
+  $("#com_s").text($com_select);
+})
+
+//勝負する階段数の変化＋スタート制御//
+$("#stairs").change(function() {
+  const $player_select = $("#player_select option:selected").val();
+  console.log($player_select);
+  const $com_select = $("#com_select option:selected").val();
+  console.log($com_select);
+  const $stairs = $("#stairs option:selected").val();
+  console.log($stairs);
+  if($player_select !=="" && $com_select !=="" && $stairs !=="") {
+    $("#start").prop("disabled",false);
+  } else {
+    $("#start").prop("disabled",true);
+  }
+})
+
+//スタートを押さないと遊べない設定//
+$(".glico").prop("disabled",true);
+$("#start").on("click",function(){
+  $(".glico").prop("disabled",false);
+  $("#start").prop("disabled",true);
+  $("#player_select").attr("disabled",true);
+  $("#com_select").attr("disabled",true);
+  $("#stairs").attr("disabled",true);
+})
+
+//最終結果前にリロードを押せない（隠す）設定//
+$("#reload").hide();
+
+let $my = "";
+let $com = "";
+let $win = 0;
+let $lose = 0;
+let $glico = "<img src = img/glico40.png>"
+let $choco = "<img src = img/choco40.png>"
+let $pine = "<img src = img/pine40.png>"
+let $glico_g = "<img src = img/glico40_gray.png>"
+
+//グーをクリックした時//
+$("#guub").on("click", function () {
+  $my = 1;
+  $com = Math.floor(Math.random()*3) + 1 ;
+  console.log($my);
+  console.log($com);
+  const $player_select = $("#player_select option:selected").val();
+  const $com_select = $("#com_select option:selected").val();
+  let $stairs = ($("#stairs option:selected").val())-10+10; //勝負する階段数をセット
+  $("#playerHand").attr("src", "img/guu02.png"); //プレイヤーの出した手
+  //comが出す手の設定//
+  if ($com==1) { //コンピュータの出した手
+    $("#comHand").attr("src", "img/guu02.png");
+    $win += 0;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+  } else if ($com==2) {
+    $("#comHand").attr("src", "img/cho02.png"); 
+    $win += 3;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#stump").append($glico + $glico + $glico); //グーで勝ったからグリコ3つ
+  } else if ($com==3) {
+    $("#comHand").attr("src", "img/paa02.png");
+    $lose += 6;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#com_stump").append($pine + $pine + $pine + $pine + $pine + $pine); //グーで相手が負けたからパイナツプル6つ
+  }
+  //勝敗の表示//
+  if ($my==$com) {
+    $("#result01").text("あいこ！");
+    $("#result02").text("グ〜リ〜コ！");
+  } else if ( ($my==1 && $com==2) || ($my==2 && $com==3) || ($my==3 && $com==1) ) {
+    $("#result01").text("（"+$player_select+"の）");
+    $("#result02").text("グーリーコッ！");
+  } else if ( ($my==1 && $com==3) || ($my==2 && $com==1) || ($my==3 && $com==2) ) {
+    $("#result01").text("（"+$com_select+"の）");
+    $("#result02").text("パイナツプル...");
+  } else {
+    $("#result").text("");
+  }
+  //最終結果の表示//
+  if ($win>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  } else if ($lose>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result03").text("負けた... ").fadeIn(1000);
+        $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  }
+})
+
+//チョキをクリックした時//
+$("#chob").on("click", function () {
+  $my = 2;
+  $com = Math.floor(Math.random()*3) + 1 ;
+  console.log($my);
+  console.log($com);
+  const $player_select = $("#player_select option:selected").val();
+  const $com_select = $("#com_select option:selected").val();
+  let $stairs = ($("#stairs option:selected").val())-10+10; //勝負する階段数をセット
+  $("#playerHand").attr("src", "img/cho02.png"); //プレイヤーの出した手
+  //comが出す手の設定//
+  if ($com==1) { //コンピュータの出した手
+    $("#comHand").attr("src", "img/guu02.png");
+    $lose += 3;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#com_stump").append($glico + $glico + $glico); //チョキで負けたから相手がグリコ3つ
+  } else if ($com==2) {
+    $("#comHand").attr("src", "img/cho02.png");
+    $win += 0;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+  } else if ($com==3) {
+    $("#comHand").attr("src", "img/paa02.png");
+    $win += 6;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#stump").append($choco + $choco + $choco + $choco + $choco + $choco); //チョキで勝ったからチヨコレイト6つ
+  }
+  //勝敗の表示//
+  if ($my==$com) { //本当はif文 何回も書きたくないpart1
+    $("#result01").text("あいこ！");
+    $("#result02").text("グ〜リ〜コ！");
+  } else if ( ($my==1 && $com==2) || ($my==2 && $com==3) || ($my==3 && $com==1) ) {
+    $("#result01").text("（"+$player_select+"の）");
+    $("#result02").text("チヨコレイトッ！！");
+  } else if ( ($my==1 && $com==3) || ($my==2 && $com==1) || ($my==3 && $com==2) ) {
+    $("#result01").text("（"+$com_select+"の）");
+    $("#result02").text("グリコ...");
+  } else {
+    $("#result").text("");
+  }
+  //最終結果の表示//
+  if ($win>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  } else if ($lose>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result03").text("負けた... ").fadeIn(1000);
+        $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  }
+})
+
+//パーをクリックした時//
+$("#paab").on("click", function () {
+  $my = 3;
+  $com = Math.floor(Math.random()*3) + 1 ;
+  console.log($my);
+  console.log($com);
+  const $player_select = $("#player_select option:selected").val();
+  const $com_select = $("#com_select option:selected").val();
+  let $stairs = ($("#stairs option:selected").val())-10+10; //勝負する階段数をセット
+  $("#playerHand").attr("src", "img/paa02.png"); //プレイヤーの出した手
+  //comが出す手の設定//
+  if ($com==1) {
+    $("#comHand").attr("src", "img/guu02.png");
+    $win += 6;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#stump").append($pine + $pine + $pine + $pine + $pine + $pine); //パーで負けたから相手チヨコレイト6つ
+  } else if ($com==2) { //コンピュータの出した手
+    $("#comHand").attr("src", "img/cho02.png");
+    $lose += 6;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+    $("#com_stump").append($choco + $choco + $choco + $choco + $choco + $choco); //パーで勝ったからパイナツプル6つ
+  } else if ($com==3) {
+    $("#comHand").attr("src", "img/paa02.png");
+    $win += 0;
+    console.log("$win" + $win + " / " + "$lose" + $lose);
+  }
+  //勝敗の表示//
+  if ($my==$com) { //本当はif文 何回も書きたくないpart2
+    $("#result01").text("あいこ！");
+    $("#result02").text("グリコ！");
+  } else if ( ($my==1 && $com==2) || ($my==2 && $com==3) || ($my==3 && $com==1) ) {
+    $("#result01").text("（"+$player_select+"の）");
+    $("#result02").text("パイナツプルッ！");
+  } else if ( ($my==1 && $com==3) || ($my==2 && $com==1) || ($my==3 && $com==2) ) {
+    $("#result01").text("（"+$com_select+"の）");
+    $("#result02").text("チヨコレイト...");
+  } else {
+    $("#result").text("");
+  }
+  //最終結果の表示//
+  if ($win>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  } else if ($lose>=$stairs) {
+      setTimeout (function(){
+        $("#result01").text("");
+        $("#result02").text("");
+        $("#result03").text("負けた... ").fadeIn(1000);
+        $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+    },1200)
+    $(".glico").prop("disabled",true); //勝敗決したらクリック不可
+    setTimeout (function() {
+      $("#reload").show(4000);
+    }) // $("#reload").show(); //勝敗決したら再戦ボタンを表示
+  }
+})
+
+$("#reload").click(function(){ //リロード設定
+  location.reload();
+})
+
+</script>
+</body>
+</html>
