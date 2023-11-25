@@ -62,7 +62,7 @@ html, body {
 #center_glico {
     position: absolute;
     width: 15%;
-    top: 50%;
+    /* top: 50%; */
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -80,7 +80,7 @@ html, body {
 }
 #result02 {
     color: lightslategray;
-    font-size: 4rem;
+    font-size: 3.2rem;
 }
 #result03 {
     display: none;
@@ -91,19 +91,20 @@ html, body {
 #result04 {
     display: none;
     color: darkorange;
-    font-size: 4rem;
+    font-size: 3.2rem;
 }
 #result05 {
     display: none;
     color: crimson;
-    font-size: 4rem;
+    font-size: 3.2rem;
 }
 
 /* グーチョキパーの選択ボタン設定 */
 .click_all {
-    background-image: url("../img/glico40_gray.png");
+    /* background-image: url("../img/glico40_gray.png"); */
+    /* background-repeat: repeat; */
     /* ↑ローカル画像の指定方法（階層を正しく指定すること） */
-    background-repeat: repeat;
+    /* ↑ごちゃごちゃするからやっぱり設定しない */
     display: flex;
     justify-content: center;
     margin-top: 2px;
