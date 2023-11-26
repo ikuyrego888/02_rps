@@ -170,9 +170,10 @@ $("#stairs").change(function() {
 })
 
 //効果音セット//
-const start_audio = new Audio("./js/finger_snap.mp3");
+const button_audio = new Audio("./js/button.mp3");
 const com_up_audio = new Audio("./js/com_up.mp3");
 const player_up_audio = new Audio("./js/player_up.mp3");
+const draw_audio = new Audio("./js/draw.mp3");
 const waa_audio = new Audio("./js/waa.mp3");
 const boo_audio = new Audio("./js/boo.mp3");
 
@@ -184,7 +185,7 @@ $("#start").on("click",function(){
   $("#player_select").attr("disabled",true);
   $("#com_select").attr("disabled",true);
   $("#stairs").attr("disabled",true);
-  start_audio.play(); //スタート効果音
+  button_audio.play(); //スタート効果音
 })
 
 //最終結果前にリロードを押せない（隠す）設定//
@@ -214,6 +215,7 @@ $("#guub").on("click", function () {
     $("#comHand").attr("src", "img/guu02.png");
     $win += 0;
     console.log("$win" + $win + " / " + "$lose" + $lose);
+    draw_audio.play(); //あいこ効果音
   } else if ($com==2) {
     $("#comHand").attr("src", "img/cho02.png"); 
     $win += 3;
@@ -290,6 +292,7 @@ $("#chob").on("click", function () {
     $("#comHand").attr("src", "img/cho02.png");
     $win += 0;
     console.log("$win" + $win + " / " + "$lose" + $lose);
+    draw_audio.play(); //あいこ効果音
   } else if ($com==3) {
     $("#comHand").attr("src", "img/paa02.png");
     $win += 6;
@@ -366,6 +369,7 @@ $("#paab").on("click", function () {
     $("#comHand").attr("src", "img/paa02.png");
     $win += 0;
     console.log("$win" + $win + " / " + "$lose" + $lose);
+    draw_audio.play(); //あいこ効果音
   }
   $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
   $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
@@ -411,7 +415,7 @@ $("#paab").on("click", function () {
 
 $("#reload").click(function(){ //リロード設定
   location.reload();
-  start_audio.play(); //スタート効果音を兼用
+  button_audio.play(); //スタート効果音を兼用
 })
 
 </script>
