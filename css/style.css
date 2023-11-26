@@ -117,7 +117,7 @@ html, body {
     border-radius: 5px;
 }
 #guub:hover,#chob:hover,#paab:hover {
-    opacity: 0.8;
+    opacity: 0.6;
     color: white;
     background-color: crimson;
 }
@@ -125,7 +125,7 @@ html, body {
 #guub:disabled,#chob:disabled,#paab:disabled {
     margin: 5%;
     pointer-events: none;
-    opacity: 0.5;
+    opacity: 0.2;
     background-color: rgb(245, 240, 240);
     border-radius: 5px;
 }
@@ -152,12 +152,19 @@ html, body {
 .table_02 th {
     width: 16%;
     font-weight: normal;
-
     /* 見出しのフォントの太さを普通に変更 */
     color: rgb(75, 89, 103);
     background-color: rgb(217, 223, 229);
     font-size: 1.4rem;
     border: 1px solid #bfbfbf;
+}
+#player_s,#com_s {
+    margin: 0;
+}
+#player_rest,#com_rest {
+    font-size: 1rem;
+    color: lightslategray;
+    margin: 0;
 }
 .table_02 td{
     border: 1px solid #bfbfbf;

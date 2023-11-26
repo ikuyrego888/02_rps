@@ -10,6 +10,7 @@
 <body>
   <header>
     <!-- メニューバー設定したい -->
+    <link rel="icon" href="date:,">
   </header>
 
   <!-- 勝負の設定 -->
@@ -34,14 +35,14 @@
       <option value="50">50段</option>
       <option value="100">100段</option>
     </select>
-    <span id="start_alert"><button id="start">スタート</button></span>
+    <span id="start_alert"><button id="start">ゲームスタート</button></span>
   </form>
 
   <!-- 勝敗表示と結果表示 -->
   <table class="table_01">
     <tr>
-      <td id="player">（プレイヤー選択）</td>
-      <td id="com">（あいてを選んでね）</td>
+      <td id="player">(プレイヤー選択)</td>
+      <td id="com">(あいてを選んでね)</td>
     </tr>
     <tr class="hand">
       <td><img src="img/guu02.png" alt="" id="playerHand"></td>
@@ -84,15 +85,21 @@
   <!-- ポイント（スタンプ）表示 -->
   <table class="table_02">
     <tr class="table_02_height">
-      <th id="player_s">（プレイヤー）</th>
+      <th>
+        <p id="player_s">(プレイヤー)</p>
+        <p id="player_rest">残り段数</p>
+      </th>
       <td><div id="stump"></div></td>
     </tr>
     <tr class="table_02_height">
-      <th id="com_s">（相手）</th>
+      <th>
+        <P id="com_s">(あいて)</P>
+        <p id="com_rest">残り段数</p>
+      </th>
       <td><div id="com_stump"></div></td>
     </tr>
   </table>
-
+  
   <!-- リロードボタン -->
   <div id="restart">
     <button id="reload">もう１回あそぶ</button>
@@ -153,12 +160,21 @@ $("#stairs").change(function() {
   console.log($com_select);
   const $stairs = $("#stairs option:selected").val();
   console.log($stairs);
+  $("#player_rest").text("残 "+$stairs+" 段")
+  $("#com_rest").text("残 "+$stairs+" 段")
   if($player_select !=="" && $com_select !=="" && $stairs !=="") {
     $("#start").prop("disabled",false);
   } else {
     $("#start").prop("disabled",true);
   }
 })
+
+//効果音セット//
+const start_audio = new Audio("./js/finger_snap.mp3");
+const com_up_audio = new Audio("./js/com_up.mp3");
+const player_up_audio = new Audio("./js/player_up.mp3");
+const waa_audio = new Audio("./js/waa.mp3");
+const boo_audio = new Audio("./js/boo.mp3");
 
 //スタートを押さないと遊べない設定//
 $(".glico").prop("disabled",true);
@@ -168,6 +184,7 @@ $("#start").on("click",function(){
   $("#player_select").attr("disabled",true);
   $("#com_select").attr("disabled",true);
   $("#stairs").attr("disabled",true);
+  start_audio.play(); //スタート効果音
 })
 
 //最終結果前にリロードを押せない（隠す）設定//
@@ -202,12 +219,16 @@ $("#guub").on("click", function () {
     $win += 3;
     console.log("$win" + $win + " / " + "$lose" + $lose);
     $("#stump").append($glico + $glico + $glico); //グーで勝ったからグリコ3つ
+    player_up_audio.play(); //勝ち効果音
   } else if ($com==3) {
     $("#comHand").attr("src", "img/paa02.png");
     $lose += 6;
     console.log("$win" + $win + " / " + "$lose" + $lose);
     $("#com_stump").append($pine + $pine + $pine + $pine + $pine + $pine); //グーで相手が負けたからパイナツプル6つ
+    com_up_audio.play(); //負け効果音
   }
+  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
+  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
   //勝敗の表示//
   if ($my==$com) {
     $("#result01").text("あいこ！");
@@ -227,6 +248,7 @@ $("#guub").on("click", function () {
         $("#result01").text("");
         $("#result02").text("");
         $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+        waa_audio.play(); //勝利歓喜の効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -238,6 +260,7 @@ $("#guub").on("click", function () {
         $("#result02").text("");
         $("#result03").text("負けた... ").fadeIn(1000);
         $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+        boo_audio.play(); //敗北ブーイングの効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -262,6 +285,7 @@ $("#chob").on("click", function () {
     $lose += 3;
     console.log("$win" + $win + " / " + "$lose" + $lose);
     $("#com_stump").append($glico + $glico + $glico); //チョキで負けたから相手がグリコ3つ
+    com_up_audio.play(); //負け効果音
   } else if ($com==2) {
     $("#comHand").attr("src", "img/cho02.png");
     $win += 0;
@@ -271,7 +295,10 @@ $("#chob").on("click", function () {
     $win += 6;
     console.log("$win" + $win + " / " + "$lose" + $lose);
     $("#stump").append($choco + $choco + $choco + $choco + $choco + $choco); //チョキで勝ったからチヨコレイト6つ
+    player_up_audio.play(); //勝ち効果音
   }
+  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
+  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
   //勝敗の表示//
   if ($my==$com) { //本当はif文 何回も書きたくないpart1
     $("#result01").text("あいこ！");
@@ -291,6 +318,7 @@ $("#chob").on("click", function () {
         $("#result01").text("");
         $("#result02").text("");
         $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+        waa_audio.play(); //勝利歓喜の効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -302,6 +330,7 @@ $("#chob").on("click", function () {
         $("#result02").text("");
         $("#result03").text("負けた... ").fadeIn(1000);
         $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+        boo_audio.play(); //敗北ブーイングの効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -325,17 +354,21 @@ $("#paab").on("click", function () {
     $("#comHand").attr("src", "img/guu02.png");
     $win += 6;
     console.log("$win" + $win + " / " + "$lose" + $lose);
-    $("#stump").append($pine + $pine + $pine + $pine + $pine + $pine); //パーで負けたから相手チヨコレイト6つ
+    $("#stump").append($pine + $pine + $pine + $pine + $pine + $pine); //パーで勝ったからパイナツプ6つ
+    player_up_audio.play(); //勝ち効果音
   } else if ($com==2) { //コンピュータの出した手
     $("#comHand").attr("src", "img/cho02.png");
     $lose += 6;
     console.log("$win" + $win + " / " + "$lose" + $lose);
-    $("#com_stump").append($choco + $choco + $choco + $choco + $choco + $choco); //パーで勝ったからパイナツプル6つ
+    $("#com_stump").append($choco + $choco + $choco + $choco + $choco + $choco); //パーで負けたから相手チヨコレイト6つ
+    com_up_audio.play(); //負け効果音
   } else if ($com==3) {
     $("#comHand").attr("src", "img/paa02.png");
     $win += 0;
     console.log("$win" + $win + " / " + "$lose" + $lose);
   }
+  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
+  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
   //勝敗の表示//
   if ($my==$com) { //本当はif文 何回も書きたくないpart2
     $("#result01").text("あいこ！");
@@ -355,6 +388,7 @@ $("#paab").on("click", function () {
         $("#result01").text("");
         $("#result02").text("");
         $("#result04").text($player_select+"の勝ち♪").fadeIn(1000);
+        waa_audio.play(); //勝利歓喜の効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -366,6 +400,7 @@ $("#paab").on("click", function () {
         $("#result02").text("");
         $("#result03").text("負けた... ").fadeIn(1000);
         $("#result05").text($com_select+"の勝ち...").fadeIn(1000);
+        boo_audio.play(); //敗北ブーイングの効果音
     },1200)
     $(".glico").prop("disabled",true); //勝敗決したらクリック不可
     setTimeout (function() {
@@ -376,6 +411,7 @@ $("#paab").on("click", function () {
 
 $("#reload").click(function(){ //リロード設定
   location.reload();
+  start_audio.play(); //スタート効果音を兼用
 })
 
 </script>
