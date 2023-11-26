@@ -229,8 +229,16 @@ $("#guub").on("click", function () {
     $("#com_stump").append($pine + $pine + $pine + $pine + $pine + $pine); //グーで相手が負けたからパイナツプル6つ
     com_up_audio.play(); //負け効果音
   }
-  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
-  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
+  if (($stairs-$win)<=0) { //プレイヤーの残り段数の表示
+    $("#player_rest").text("残 0 段")
+  } else {
+    $("#player_rest").text("残 "+($stairs-$win)+" 段")
+  }  
+  if (($stairs-$lose)<=0) { //相手の残り段数の表示
+    $("#com_rest").text("残 0 段")
+  } else {
+    $("#com_rest").text("残 "+($stairs-$lose)+" 段")
+  }
   //勝敗の表示//
   if ($my==$com) {
     $("#result01").text("あいこ！");
@@ -300,8 +308,16 @@ $("#chob").on("click", function () {
     $("#stump").append($choco + $choco + $choco + $choco + $choco + $choco); //チョキで勝ったからチヨコレイト6つ
     player_up_audio.play(); //勝ち効果音
   }
-  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
-  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
+  if (($stairs-$win)<=0) { //プレイヤーの残り段数の表示
+    $("#player_rest").text("残 0 段")
+  } else {
+    $("#player_rest").text("残 "+($stairs-$win)+" 段")
+  }  
+  if (($stairs-$lose)<=0) { //相手の残り段数の表示
+    $("#com_rest").text("残 0 段")
+  } else {
+    $("#com_rest").text("残 "+($stairs-$lose)+" 段")
+  }
   //勝敗の表示//
   if ($my==$com) { //本当はif文 何回も書きたくないpart1
     $("#result01").text("あいこ！");
@@ -371,8 +387,16 @@ $("#paab").on("click", function () {
     console.log("$win" + $win + " / " + "$lose" + $lose);
     draw_audio.play(); //あいこ効果音
   }
-  $("#player_rest").text("残 "+($stairs-$win)+" 段") //残り段数の表示
-  $("#com_rest").text("残 "+($stairs-$lose)+" 段") //残り段数の表示
+  if (($stairs-$win)<=0) { //プレイヤーの残り段数の表示
+    $("#player_rest").text("残 0 段")
+  } else {
+    $("#player_rest").text("残 "+($stairs-$win)+" 段")
+  }  
+  if (($stairs-$lose)<=0) { //相手の残り段数の表示
+    $("#com_rest").text("残 0 段")
+  } else {
+    $("#com_rest").text("残 "+($stairs-$lose)+" 段")
+  }
   //勝敗の表示//
   if ($my==$com) { //本当はif文 何回も書きたくないpart2
     $("#result01").text("あいこ！");
